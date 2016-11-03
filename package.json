@@ -23,6 +23,7 @@
   "author": "Kris Selden <kris.selden@gmail.com>",
   "devDependencies": {
     "@types/node": "^6.0.46",
-    "typescript": "^2.0.3"
+    "typescript": "^2.0.3",
+    "tslint": "^3.15.1"
   }
 }
