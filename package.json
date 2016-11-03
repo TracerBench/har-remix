@@ -1,0 +1,28 @@
+{
+  "name": "har-remix",
+  "version": "1.0.0",
+  "description": "Server HAR archive with loose matching and hooks to alter responses.",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepublish": "tsc",
+    "build": "tsc"
+  },
+  "keywords": [
+    "benchmarking",
+    "har",
+    "server"
+  ],
+  "files": [
+    "dist/*",
+    "README.md",
+    "LICENSE.md"
+  ],
+  "license": "Apache-2.0",
+  "author": "Kris Selden <kris.selden@gmail.com>",
+  "devDependencies": {
+    "@types/node": "^6.0.46",
+    "typescript": "^2.0.3"
+  }
+}
