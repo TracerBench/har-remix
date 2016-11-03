@@ -4,7 +4,7 @@ Easily serve HAR archive with loose matching and alterations.
 
 You can save a HAR archive with content from the Network tab of Chrome by right clicking the recorded responses.
 
-```
+```js
 import HARRemix from "har-remix";
 import * as url from "url";
 
