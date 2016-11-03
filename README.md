@@ -29,7 +29,7 @@ let harRemix = new HARRemix({
   }
 });
 
-harRemix.loadArchive('my-site.com/har');
+harRemix.loadArchive('my-site.com.har');
 
 harRemix.createServer().listen(6789);
 ```
