@@ -1,6 +1,6 @@
 {
   "name": "har-remix",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Server HAR archive with loose matching and hooks to alter responses.",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
