@@ -17,7 +17,7 @@ export interface ServerDelegate {
   /**
    * Create a key from the request to match against the archived requests.
    */
-  keyForServerRequest(req: http.IncomingMessage): string | undefined;
+  keyForServerRequest(req: http.IncomingMessage): PromiseLike<string | undefined> | string | undefined;
 
   /**
    * Allows simple text content to be transformed.
@@ -48,7 +48,7 @@ export interface ServerDelegate {
    * Allows fallback, will 404 if headers aren't sent, so you must writeHead if you
    * intend to handle the request.
    */
-  missingResponse?(request: http.IncomingMessage, response: http.ServerResponse);
+  missingResponse?(request: http.IncomingMessage, response: http.ServerResponse): PromiseLike<void> | undefined;
 }
 
 export interface Response {
@@ -169,8 +169,8 @@ export default class ArchiveServer {
     return res;
   }
 
-  public handle(request: http.IncomingMessage, response: http.ServerResponse) {
-    let key = this.delegate.keyForServerRequest(request);
+  public async handle(request: http.IncomingMessage, response: http.ServerResponse) {
+    let key = await Promise.resolve(this.delegate.keyForServerRequest(request));
     if (key) {
       let res = this.responseFor(key);
       if (res) {
@@ -183,7 +183,7 @@ export default class ArchiveServer {
     }
 
     if (this.delegate.missingResponse && !response.headersSent) {
-      this.delegate.missingResponse(request, response);
+      await Promise.resolve(this.delegate.missingResponse(request, response));
     }
 
     if (!response.headersSent) {
