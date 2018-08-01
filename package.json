@@ -6,7 +6,7 @@
   "typings": "dist/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prepublish": "tsc",
+    "prepare": "tsc",
     "build": "tsc"
   },
   "keywords": [
@@ -25,9 +25,12 @@
     "type": "git",
     "url": "https://github.com/krisselden/har-remix.git"
   },
+  "dependencies": {
+    "@types/node": "*"
+  },
   "devDependencies": {
-    "@types/node": "^6.0.46",
-    "typescript": "^2.0.3",
-    "tslint": "^3.15.1"
+    "@types/node": "^10.5.5",
+    "typescript": "^3.0.1",
+    "tslint": "^5.11.0"
   }
 }

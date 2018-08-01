@@ -17,7 +17,9 @@ export interface ServerDelegate {
   /**
    * Create a key from the request to match against the archived requests.
    */
-  keyForServerRequest(req: http.IncomingMessage): PromiseLike<string | undefined> | string | undefined;
+  keyForServerRequest(
+    req: http.IncomingMessage
+  ): PromiseLike<string | undefined> | string | undefined;
 
   /**
    * Allows simple text content to be transformed.
@@ -40,7 +42,11 @@ export interface ServerDelegate {
    * This hook allows you to set headers (like cache-control, authorization, set-cookie),
    * or return a different Response.
    */
-  finalizeResponse?(entry: HAR.Entry, key: string, response: Response): Response;
+  finalizeResponse?(
+    entry: HAR.Entry,
+    key: string,
+    response: Response
+  ): Response;
 
   /**
    * Called if no response found.
@@ -48,7 +54,10 @@ export interface ServerDelegate {
    * Allows fallback, will 404 if headers aren't sent, so you must writeHead if you
    * intend to handle the request.
    */
-  missingResponse?(request: http.IncomingMessage, response: http.ServerResponse): PromiseLike<void> | undefined;
+  missingResponse?(
+    request: http.IncomingMessage,
+    response: http.ServerResponse
+  ): PromiseLike<void> | undefined;
 }
 
 export interface Response {
@@ -61,8 +70,7 @@ export interface Response {
 export default class ArchiveServer {
   private responses = createMap<Response>();
 
-  constructor(private delegate: ServerDelegate) {
-  }
+  constructor(private delegate: ServerDelegate) {}
 
   public loadArchive(path: string) {
     this.addArchive(JSON.parse(fs.readFileSync(path, "utf8")));
@@ -89,7 +97,10 @@ export default class ArchiveServer {
     }
   }
 
-  public buildResponseForArchiveEntry(entry: HAR.Entry, key: string): Response | undefined {
+  public buildResponseForArchiveEntry(
+    entry: HAR.Entry,
+    key: string
+  ): Response | undefined {
     let { status, content } = entry.response;
     if (content && status >= 200 && status < 300) {
       let { text, encoding, mimeType } = content;
@@ -104,7 +115,8 @@ export default class ArchiveServer {
         }
         body = new Buffer(text);
       }
-      let compress = content.compression !== undefined && content.compression > 0;
+      let compress =
+        content.compression !== undefined && content.compression > 0;
       let response = this.buildResponse(status, mimeType, body, compress);
       if (this.delegate.finalizeResponse) {
         response = this.delegate.finalizeResponse(entry, key, response);
@@ -116,10 +128,12 @@ export default class ArchiveServer {
     }
   }
 
-  public buildResponse(statusCode: number,
-                       mimeType: string,
-                       body: Buffer | undefined,
-                       compress: boolean): Response {
+  public buildResponse(
+    statusCode: number,
+    mimeType: string,
+    body: Buffer | undefined,
+    compress: boolean
+  ): Response {
     let headers: MapLike<string>;
     if (body && compress) {
       body = zlib.gzipSync(body, {
@@ -132,8 +146,12 @@ export default class ArchiveServer {
     return { statusCode, headers, body, next: undefined };
   }
 
-  public buildHeaders(mimeType: string, body: Buffer | undefined, compressed: boolean): MapLike<string> {
-    let headers = {
+  public buildHeaders(
+    mimeType: string,
+    body: Buffer | undefined,
+    compressed: boolean
+  ): MapLike<string> {
+    let headers: MapLike<string> = {
       "Content-Length": "" + (body ? body.byteLength : 0),
       "Content-Type": mimeType
     };
@@ -169,7 +187,10 @@ export default class ArchiveServer {
     return res;
   }
 
-  public async handle(request: http.IncomingMessage, response: http.ServerResponse) {
+  public async handle(
+    request: http.IncomingMessage,
+    response: http.ServerResponse
+  ) {
     let key = await Promise.resolve(this.delegate.keyForServerRequest(request));
     if (key) {
       let res = this.responseFor(key);

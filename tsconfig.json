@@ -1,17 +1,11 @@
 {
   "compilerOptions": {
-    "target": "es2015",
+    "target": "es2017",
     "module": "commonjs",
     "moduleResolution": "node",
     "outDir": "dist",
     "declaration": true,
-    "strictNullChecks": true
+    "strict": true
   },
-  "exclude": [
-    "node_modules",
-    "dist"
-  ],
-  "files": [
-    "index.ts"
-  ]
+  "files": ["index.ts"]
 }
