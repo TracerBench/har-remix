@@ -1,11 +1,13 @@
 {
   "compilerOptions": {
-    "target": "es2017",
+    "target": "es2015",
     "module": "commonjs",
     "moduleResolution": "node",
     "outDir": "dist",
     "declaration": true,
-    "strict": true
+    "strict": true,
+    "sourceMap": true,
+    "newLine": "LF"
   },
   "files": ["index.ts"]
 }
