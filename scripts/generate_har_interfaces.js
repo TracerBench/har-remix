@@ -1,9 +1,9 @@
 const fs = require("fs");
 const json2ts = require("json-schema-to-typescript");
-const schemas = require("har-schema");
+const schemas = require("@krisselden/har-schema");
 
 json2ts
-  .compile(makeRefsLocal("har", schemas), "har")
+  .compile(makeRefsLocal("har", schemas), "Archive")
   .then(ts => fs.writeFileSync("src/har.ts", ts));
 
 function makeRefsLocal(rootKey, schemas) {

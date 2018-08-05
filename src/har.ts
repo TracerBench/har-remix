@@ -4,7 +4,7 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
-export interface Har {
+export interface Archive {
   log: Log;
   [k: string]: any;
 }

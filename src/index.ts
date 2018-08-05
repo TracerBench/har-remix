@@ -1,7 +1,8 @@
 import * as http from "http";
 import * as zlib from "zlib";
 import * as fs from "fs";
-import * as har from "./har";
+import * as HAR from "./har";
+export { HAR };
 
 /**
  * Delegate for archive server
@@ -13,7 +14,7 @@ export interface ServerDelegate {
    *
    * Return undefined if you do not want to serve this request.
    */
-  keyForArchiveEntry(entry: har.Entry): string | undefined;
+  keyForArchiveEntry(entry: HAR.Entry): string | undefined;
 
   /**
    * Create a key from the request to match against the archived requests.
@@ -27,7 +28,7 @@ export interface ServerDelegate {
    *
    * Not called if entry.response.content.encoding == "base64"
    */
-  textFor?(entry: har.Entry, key: string, text: string): string;
+  textFor?(entry: HAR.Entry, key: string, text: string): string;
 
   /**
    * By default, only 2xx requests with content are responded to.
@@ -35,7 +36,7 @@ export interface ServerDelegate {
    * To be more specific "with content" means the HAR was recorded with content.
    * 204 requests still have a content entry with the mimeType but no text key.
    */
-  responseFor?(entry: har.Entry, key: string): Response | undefined;
+  responseFor?(entry: HAR.Entry, key: string): Response | undefined;
 
   /**
    * Finalize the response before adding it, by default no headers are copied.
@@ -44,7 +45,7 @@ export interface ServerDelegate {
    * or return a different Response.
    */
   finalizeResponse?(
-    entry: har.Entry,
+    entry: HAR.Entry,
     key: string,
     response: Response
   ): Response;
@@ -77,17 +78,17 @@ export default class ArchiveServer {
     this.addArchive(JSON.parse(fs.readFileSync(path, "utf8")));
   }
 
-  public addArchive(har: har.Har) {
+  public addArchive(har: HAR.Archive) {
     this.addArchiveEntries(har.log.entries);
   }
 
-  public addArchiveEntries(entries: har.Entry[]) {
+  public addArchiveEntries(entries: HAR.Entry[]) {
     for (let i = 0; i < entries.length; i++) {
       this.addArchiveEntry(entries[i]);
     }
   }
 
-  public addArchiveEntry(entry: har.Entry) {
+  public addArchiveEntry(entry: HAR.Entry) {
     let key = this.delegate.keyForArchiveEntry(entry);
     if (!key) return;
     let response = this.buildResponseForArchiveEntry(entry, key);
@@ -99,7 +100,7 @@ export default class ArchiveServer {
   }
 
   public buildResponseForArchiveEntry(
-    entry: har.Entry,
+    entry: HAR.Entry,
     key: string
   ): Response | undefined {
     let { status, content } = entry.response;
