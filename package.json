@@ -1,6 +1,6 @@
 {
   "name": "har-remix",
-  "version": "2.0.0-beta",
+  "version": "2.0.0-beta.1",
   "description": "Server HAR archive with loose matching and hooks to alter responses.",
   "keywords": [
     "benchmarking",
@@ -12,7 +12,7 @@
   "author": "Kris Selden <kris.selden@gmail.com>",
   "files": [
     "dist",
-    "index.ts"
+    "src"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
