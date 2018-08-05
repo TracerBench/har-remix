@@ -26,6 +26,8 @@
   },
   "devDependencies": {
     "@types/node": "^10.5.5",
+    "@krisselden/har-schema": "^0.1.0",
+    "json-schema-to-typescript": "^5.5.0",
     "tslint": "^5.11.0",
     "typescript": "^3.0.1"
   }

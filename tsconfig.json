@@ -4,10 +4,11 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "outDir": "dist",
+    "rootDir": "src",
     "declaration": true,
     "strict": true,
     "sourceMap": true,
     "newLine": "LF"
   },
-  "files": ["index.ts"]
+  "files": ["src/har.ts", "src/index.ts"]
 }
