@@ -1,6 +1,7 @@
 import * as http from "http";
 import * as zlib from "zlib";
 import * as fs from "fs";
+import * as mimeTypes from "mime-types";
 import * as HAR from "./har";
 export { HAR };
 
@@ -107,16 +108,23 @@ export default class ArchiveServer {
     if (content && status >= 200 && status < 300) {
       let { text, encoding, mimeType } = content;
       let body: Buffer | undefined;
+
+      let isText = mimeType.match(/text|javascript/) !== null;
+
       if (text === undefined) {
         body = undefined;
-      } else if (encoding === "base64") {
-        body = new Buffer(text, "base64");
-      } else {
+      } else if (mimeTypes.charset(mimeType) === 'UTF-8') {
+        text = new Buffer(text, encoding).toString();
+
         if (this.delegate.textFor) {
           text = this.delegate.textFor(entry, key, text);
         }
+
         body = new Buffer(text);
+      } else {
+        body = new Buffer(text, encoding);
       }
+
       let compress =
         content.compression !== undefined && content.compression > 0;
       let response = this.buildResponse(status, mimeType, body, compress);
