@@ -1,4 +1,12 @@
-# har-remix
+# HAR-Remix
+
+HAR-Remix allows the offline serving of HTTP Archive (HAR) files.
+
+Many browsers (Chrome, Firefox) provide archive files that contain everything needed to load a page offline without accessing external resources. This is necessary for obtaining a high p-value (confidence) in the delta between code in master and code you‘re seeking to introduce into the codebase. Depending upon assets or external resources like images, tracking, advertisements, stylesheets, script files, icons, etc. is unpredictable and muddies the result of the site’s performance. What we want to see is how the site, having to download no content, can consistently be loaded and its load's performance evaluated and logged for further representation.
+
+Through the use of the HAR Remix tool, we can serve HAR files as offline pages and evaluate them.
+
+# Basic Implementation
 
 Easily serve HAR archive with loose matching and alterations.
 
