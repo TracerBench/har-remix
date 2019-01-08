@@ -109,8 +109,6 @@ export default class ArchiveServer {
       let { text, encoding, mimeType } = content;
       let body: Buffer | undefined;
 
-      let isText = mimeType.match(/text|javascript/) !== null;
-
       if (text === undefined) {
         body = undefined;
       } else if (mimeTypes.charset(mimeType) === 'UTF-8') {
